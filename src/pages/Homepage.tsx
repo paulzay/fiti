@@ -1,71 +1,11 @@
 import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu"
-import { Activity, BarChart, Dumbbell, LineChart, ListTodo } from "lucide-react"
+import { Activity, BarChart, LineChart, ListTodo } from "lucide-react"
 
 export default function Homepage() {
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="border-b">
-        <div className="container mx-auto px-4">
-          <NavigationMenu className="py-2">
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <Link to="/">
-                  <NavigationMenuLink className="flex items-center space-x-2">
-                    <Activity className="h-6 w-6" />
-                    <span className="font-bold">FitTrack</span>
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Features</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                    <li className="row-span-3">
-                      <NavigationMenuLink asChild>
-                        <a
-                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                          href="/"
-                        >
-                          <Dumbbell className="h-6 w-6" />
-                          <div className="mb-2 mt-4 text-lg font-medium">FitTrack</div>
-                          <p className="text-sm leading-tight text-muted-foreground">
-                            Your all-in-one fitness tracking solution
-                          </p>
-                        </a>
-                      </NavigationMenuLink>
-                    </li>
-                    <ListItem href="/log" title="Log Exercises">
-                      Record your workouts and activities
-                    </ListItem>
-                    <ListItem href="/goals" title="Set Goals">
-                      Define and track your fitness objectives
-                    </ListItem>
-                    <ListItem href="/progress" title="Track Progress">
-                      Visualize your fitness journey
-                    </ListItem>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Link to="/dashboard">
-                  <NavigationMenuLink>Dashboard</NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
-      </header>
-
       <main className="flex-grow">
         <section className="py-12 md:py-24 lg:py-32 xl:py-48">
           <div className="container px-4 md:px-6">
@@ -80,7 +20,7 @@ export default function Homepage() {
               </div>
               <div className="space-x-4">
                 <Button asChild>
-                  <Link to="/dashboard">Get Started</Link>
+                  <Link to="/signup">Get Started</Link>
                 </Button>
                 <Button variant="outline" asChild>
                   <Link to="/about">Learn More</Link>
@@ -126,9 +66,14 @@ export default function Homepage() {
                   Join thousands of users who are already tracking their way to a healthier lifestyle.
                 </p>
               </div>
-              <Button asChild size="lg">
-                <Link to="/signup">Sign Up Now</Link>
-              </Button>
+              <div className="flex">
+                <Button asChild size="lg" className="m-1">
+                  <Link to="/signup">Sign Up</Link>
+                </Button>
+                <Button asChild size="lg" className="m-1">
+                  <Link to="/login">Login</Link>
+                </Button>
+              </div>
             </div>
           </div>
         </section>
@@ -152,21 +97,21 @@ export default function Homepage() {
   )
 }
 
-function ListItem({ className, title, children, ...props }: React.ComponentPropsWithoutRef<"a"> & { title: string }) {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          className={`block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground ${className}`}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">{children}</p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  )
-}
+// function ListItem({ className, title, children, ...props }: React.ComponentPropsWithoutRef<"a"> & { title: string }) {
+//   return (
+//     <li>
+//       <NavigationMenuLink asChild>
+//         <a
+//           className={`block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground ${className}`}
+//           {...props}
+//         >
+//           <div className="text-sm font-medium leading-none">{title}</div>
+//           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">{children}</p>
+//         </a>
+//       </NavigationMenuLink>
+//     </li>
+//   )
+// }
 
 function FeatureCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
   return (
