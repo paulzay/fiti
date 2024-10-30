@@ -14,7 +14,7 @@ import './style.css'
 import { useAuth } from '@/utils/methods'
 
 function Navbar() {
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -23,7 +23,10 @@ function Navbar() {
   }
 
   useEffect(() => {
-  }, []);
+    if (isAuthenticated) {
+      navigate('/dashboard')
+    }
+  }, [navigate, isAuthenticated]);
 
   return (
     <header className="border-b w-full fixed top-0 left-0 right-0 bg-white z-50">

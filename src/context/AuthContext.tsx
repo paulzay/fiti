@@ -11,7 +11,6 @@ export const AuthContext = createContext({
   loading: false,
   login: async (email: string, password: string) => { },
   logout: () => { },
-  updateUser: (userData: any) => { }
 });
 
 // Initial state
@@ -37,11 +36,6 @@ const authReducer = (state, action) => {
         isAuthenticated: false,
         // user: null,
         token: null
-      };
-    case AUTH_ACTIONS.UPDATE_USER:
-      return {
-        ...state,
-        user: { ...state.user, ...action.payload }
       };
     default:
       return state;
@@ -77,18 +71,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const data = await response.json();
 
     if (!response.ok) throw new Error(data.message);
-
     dispatch({
       type: AUTH_ACTIONS.LOGIN,
       payload: {
-        // user: data.user,
         token: data.token
       }
     });
-
-    // Redirect if response is ok
-    window.location.href = '/dashboard';
-
     return data;
   };
 
@@ -97,18 +85,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: AUTH_ACTIONS.LOGOUT });
   };
 
-  const updateUser = (userData) => {
-    dispatch({
-      type: AUTH_ACTIONS.UPDATE_USER,
-      payload: userData
-    });
-  };
-
   const value = {
     ...state,
     login,
     logout,
-    updateUser
   };
 
   return (
