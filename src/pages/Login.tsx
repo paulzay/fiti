@@ -1,20 +1,36 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from "@/components/ui/label"
-import { useAuth } from '../utils/methods';
+import { setCookie } from '../utils/methods';
+import { toast } from 'react-toastify';
 
 
 function Login() {
-  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogin = async (email: string, password: string) => {
-    try {
-      login(email, password)
-    }
-    catch (error) {
-      console.error(error)
+    const response = await fetch('http://localhost:8000/api/v1/login', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+
+    })
+    const res = await response.json();
+    if (!response.ok) {
+      toast.error(res.message, {
+        position: "top-left"
+      })
+    } else {
+      toast.success("Login successful", {
+        position: "top-left"
+      })
+      setCookie('token', res.data.token, 1);
+      localStorage.setItem('token', res.data.token)
+      navigate('/dashboard')
     }
   }
 
@@ -47,4 +63,4 @@ function Login() {
   )
 }
 
-export default Login
+export default Login;
