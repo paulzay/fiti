@@ -62,6 +62,11 @@ export async function createGoal(goal: Goal, token: string) {
 
 export async function updateGoals(goal: Goal, token: string, id: string) {
   const response = await fetch(`${baseUrl}/user/goal/:${id}`, {
+  return response.json()
+}
+
+export async function updateGoal(goal: Goal) {
+  const response = await fetch(`${baseUrl}/user/goal`, {
     method: 'PUT',
     headers: {
       "Content-Type": "application/json",
