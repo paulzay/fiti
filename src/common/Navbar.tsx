@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from "react-router-dom"
 import {
   NavigationMenu,
@@ -11,22 +11,24 @@ import {
 import { Activity, Dumbbell } from "lucide-react"
 import { Button } from '@/components/ui/button'
 import './style.css'
-import { useAuth } from '@/utils/methods'
 
 function Navbar() {
-  const { isAuthenticated, logout } = useAuth();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const token = localStorage.getItem('token')
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout();
+    localStorage.removeItem('token')
     navigate('/')
   }
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/dashboard')
+    if (token) {
+      setIsAuthenticated(true)
+    } else {
+      setIsAuthenticated(false)
     }
-  }, [navigate, isAuthenticated]);
+  }, [token]);
 
   return (
     <header className="border-b w-full fixed top-0 left-0 right-0 bg-white z-50">

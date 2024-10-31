@@ -7,11 +7,13 @@ import Dashboard from "./pages/Dashboard";
 import About from "./pages/About";
 import Navbar from "./common/Navbar";
 import { AuthProvider } from './context/AuthContext';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
 
   return (
     <AuthProvider>
+      <ToastContainer />
       <BrowserRouter>
         <Navbar />
         <Routes>

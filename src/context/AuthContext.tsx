@@ -1,40 +1,39 @@
-// src/context/AuthContext.jsx
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createContext, useReducer, useEffect } from 'react';
 import { AUTH_ACTIONS } from './actions';
 import { deleteCookie, setCookie } from '@/utils/methods';
-
 // Create context
 export const AuthContext = createContext({
   isAuthenticated: false,
-  // user: null,
+  user: null,
   token: null,
   loading: false,
-  login: async (email: string, password: string) => { },
+  login: async (email, password) => { },
   logout: () => { },
 });
 
 // Initial state
 const initialState = {
   isAuthenticated: false,
-  // user: null,
+  user: null,
   token: localStorage.getItem('token') || null
 };
 
 // Reducer function
-const authReducer = (state, action) => {
+const authReducer = (state: any, action: { type: string; payload: { user: { name: string, email: string }; token: string; }; }) => {
   switch (action.type) {
     case AUTH_ACTIONS.LOGIN:
       return {
         ...state,
         isAuthenticated: true,
-        // user: action.payload.user,
+        user: action.payload.user,
         token: action.payload.token
       };
     case AUTH_ACTIONS.LOGOUT:
       return {
         ...state,
         isAuthenticated: false,
-        // user: null,
+        user: null,
         token: null
       };
     default:
@@ -50,9 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (state.token) {
       setCookie('auth', state.token, 1);
-      localStorage.setItem('token', state.token);
     } else {
-      localStorage.removeItem('token');
       deleteCookie('auth');
     }
   }, [state.token]);
@@ -74,7 +71,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     dispatch({
       type: AUTH_ACTIONS.LOGIN,
       payload: {
-        token: data.token
+        token: data.token,
+        user: data.user
       }
     });
     return data;
@@ -82,7 +80,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     deleteCookie('auth');
-    dispatch({ type: AUTH_ACTIONS.LOGOUT });
+    dispatch({
+      type: AUTH_ACTIONS.LOGOUT,
+      payload: {
+        user: {
+          name: '',
+          email: ''
+        },
+        token: ''
+      }
+    });
   };
 
   const value = {
